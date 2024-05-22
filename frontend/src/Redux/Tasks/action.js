@@ -23,7 +23,7 @@ export const fetchTasks = (token, userID) => {
   return async (dispatch) => {
     dispatch({ type: 'FETCH_TASKS_REQUEST' });
     try {
-      const response = await axios.get("http://localhost:8080/tasks", {
+      const response = await axios.get("https://backend-bp.onrender.com/tasks", {
         headers: {
           Authorization: token,
           userID: userID,
@@ -57,7 +57,7 @@ export const addTask = (newTask, token, userID) => {
   return async (dispatch) => {
     dispatch({ type: 'ADD_TASK_REQUEST' });
     try {
-      const response = await axios.post('http://localhost:8080/tasks/add', newTask, {
+      const response = await axios.post('https://backend-bp.onrender.com/tasks/add', newTask, {
         headers: {
           Authorization: token,
           userID: userID,
@@ -79,7 +79,7 @@ export const updateTask = (task, token, userID) => {
         ...task,
         status: task.status === 'completed' ? 'not completed' : 'completed',
       };
-      await axios.patch(`http://localhost:8080/tasks/update/${task._id}`, updatedTask, {
+      await axios.patch(`https://backend-bp.onrender.com/tasks/update/${task._id}`, updatedTask, {
         headers: {
           Authorization: token,
           userID: userID,
@@ -99,7 +99,7 @@ export const updateTaskdetail = (task, token, userID) => {
       const updatedTaskdetail = {
         ...task,
       };
-      await axios.patch(`http://localhost:8080/tasks/update/${task._id}`, updatedTaskdetail, {
+      await axios.patch(`https://backend-bp.onrender.com/tasks/update/${task._id}`, updatedTaskdetail, {
         headers: {
           Authorization: token,
           userID: userID,
@@ -119,7 +119,7 @@ export const updateTaskNotCompleted = (taskId, token, userID) => {
       const updatedTask = {
         status: 'not completed',
       };
-      await axios.patch(`http://localhost:8080/tasks/update/${taskId}`, updatedTask, {
+      await axios.patch(`https://backend-bp.onrender.com/tasks/update/${taskId}`, updatedTask, {
         headers: {
           Authorization: token,
           userID: userID,
@@ -137,7 +137,7 @@ export const updateTaskNotCompleted = (taskId, token, userID) => {
 export const deleteTask = (taskId, token, userID) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`http://localhost:8080/tasks/delete/${taskId}`, {
+      await axios.delete(`https://backend-bp.onrender.com/tasks/delete/${taskId}`, {
         headers: {
           Authorization: token,
           userID: userID,

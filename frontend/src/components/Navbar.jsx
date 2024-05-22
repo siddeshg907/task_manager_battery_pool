@@ -41,7 +41,7 @@ function Navbar() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`https://backend-bp.onrender.com/users`)
       .then((response) => {
         const foundUser = response.data.filter((u) => u._id === userID);
         setUser(foundUser[0].name);

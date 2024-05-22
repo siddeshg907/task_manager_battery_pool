@@ -21,7 +21,7 @@ function Main() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`https://backend-bp.onrender.com/users`)
       .then((response) => {
         const foundUser = response.data.find((u) => u._id === userID);
         setUser(foundUser?.name);

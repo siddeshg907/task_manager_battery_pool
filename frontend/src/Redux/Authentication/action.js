@@ -6,7 +6,7 @@ export const signup = (name, email, password, navigate) => {
   return async (dispatch) => {
     dispatch({ type: 'SIGNUP_REQUEST' });
     try {
-      const response = await axios.post('http://localhost:8080/users/register', {
+      const response = await axios.post('https://backend-bp.onrender.com/users/register', {
         name,
         email,
         password
@@ -27,7 +27,7 @@ export const login = (email, password, navigate) => {
   return async (dispatch) => {
     dispatch({ type: 'LOGIN_REQUEST' });
     try {
-      const response = await axios.post('http://localhost:8080/users/login', {
+      const response = await axios.post('https://backend-bp.onrender.com/users/login', {
         email,
         password
       });
