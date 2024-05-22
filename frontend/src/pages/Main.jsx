@@ -13,7 +13,7 @@ function Main() {
 
   const handleGetStarted = () => {
     if (isAuth) {
-      navigate("/tasks");
+      navigate("/home");
     } else {
       navigate("/login");
     }
@@ -23,7 +23,6 @@ function Main() {
     axios
       .get(`http://localhost:8080/users`)
       .then((response) => {
-        console.log(response)
         const foundUser = response.data.find((u) => u._id === userID);
         setUser(foundUser?.name);
         setLoading(false);

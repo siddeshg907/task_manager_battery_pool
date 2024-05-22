@@ -3,7 +3,7 @@ import Signup from "./Signup";
 import Main from "./Main";
 import { Login } from "./Login";
 import PrivateRoute from "../components/PrivateRoute";
-import TaskPage from "./TaskPage";
+import Home from "./Home";
 
 export default function AllRoutes() {
   return (
@@ -12,10 +12,10 @@ export default function AllRoutes() {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route
-        path="/tasks"
+        path="/home/*"
         element={
           <PrivateRoute>
-            <TaskPage />
+            <Home />
           </PrivateRoute>
         }
       />

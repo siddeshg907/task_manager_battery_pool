@@ -1,10 +1,29 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Avatar,
+  Container,
+  Box,
+  Tabs,
+  Tab,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function Navbar() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const [value, setValue] = useState(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const userID = localStorage.getItem("userID");
 
   const handleLogout = () => {
@@ -16,9 +35,13 @@ function Navbar() {
     navigate("/");
   };
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   useEffect(() => {
     axios
-      .get(`https://good-shoe-cow.cyclic.app/users`)
+      .get(`http://localhost:8080/users`)
       .then((response) => {
         const foundUser = response.data.filter((u) => u._id === userID);
         setUser(foundUser[0].name);
@@ -26,30 +49,69 @@ function Navbar() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [userID]);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const list = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer} onKeyDown={toggleDrawer}>
+      <List>
+        <ListItem button component={Link} to="/home/addtasks">
+          <ListItemText primary="Add Task" />
+        </ListItem>
+        <ListItem button component={Link} to="/home/tasks">
+          <ListItemText primary="Tasks" />
+        </ListItem>
+        <ListItem button component={Link} to="/">
+          <ListItemText primary="Completed Tasks" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={handleLogout}>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+    </Box>
+  );
 
   return (
-    <nav className="bg-gray-800 py-4">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-semibold">
-          Task App
-        </Link>
-        <div className="flex space-x-5 items-center">
-          <div
-            className="flex items-center justify-center text-white font-bold text-xl bg-teal-300 w-10 h-10 rounded-full"
-            style={{ textTransform: "uppercase" }}
-          >
-            {user[0]}
-          </div>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-700 transition duration-300 ease-in-out"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    </nav>
+    <AppBar position="static">
+      <Container>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="h6" component={Link} to="/" sx={{ textDecoration: "none", color: "inherit", mr: 2 }}>
+              Task App
+            </Typography>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor="inherit"
+              indicatorColor="secondary"
+              sx={{ display: { xs: "none", md: "flex" } }}
+            >
+              <Tab label="Add Task" component={Link} to="/home/addtasks" />
+              <Tab label="Tasks" component={Link} to="/home/tasks" />
+              <Tab label="Completed Tasks" component={Link} to="/" />
+            </Tabs>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar sx={{ bgcolor: "teal", textTransform: "uppercase", mr: 1 }}>{user[0]}</Avatar>
+            <Button onClick={handleLogout} variant="contained" color="secondary" sx={{ display: { xs: "none", md: "block" } }}>
+              Logout
+            </Button>
+            <Button onClick={toggleDrawer} sx={{ display: { xs: "block", md: "none" } }}>
+  <MenuIcon sx={{ color: "#fff" }} />
+</Button>
+          </Box>
+        </Toolbar>
+      </Container>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        {list}
+      </Drawer>
+    </AppBar>
   );
 }
 

@@ -47,7 +47,7 @@ userRouter.post("/login",async(req,res)=>{
     }
 })
 
-userRouter.get("/",auth,async(req,res)=>{
+userRouter.get("/",async(req,res)=>{
     const userID = req.headers.userID
     try {
         const users = await UserModel.find(userID);
