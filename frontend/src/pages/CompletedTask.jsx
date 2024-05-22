@@ -143,7 +143,7 @@ const CompletedTask = () => {
                     Description
                   </TableCell>
                   <TableCell style={{ fontWeight: "bold",color: 'white' }}>Due Date</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Status</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Priority</TableCell>
                   <TableCell style={{ fontWeight: "bold",color: 'white' }}>Image</TableCell>
                   <TableCell style={{ fontWeight: "bold",color: 'white' }}>Delete</TableCell>
                   <TableCell style={{ fontWeight: "bold",color: 'white' }}>
