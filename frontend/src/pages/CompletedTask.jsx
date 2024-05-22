@@ -111,15 +111,23 @@ const CompletedTask = () => {
     <>
       <Container maxWidth="lg">
         <Box my={4}>
-          <Typography
-            variant="h4"
-            color="textPrimary"
-            align="center"
-            gutterBottom
-            style={{ fontWeight: "bold" }}
-          >
-            Completed Tasks
-          </Typography>
+        <Typography
+  variant="h4"
+  color="primary" // Change the color to primary
+  align="center"
+  gutterBottom
+  style={{
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif", // Change the font family
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)", // Add a text shadow
+    letterSpacing: "2px", // Increase letter spacing
+    marginTop: "20px", // Add some top margin
+    borderBottom: "2px solid #00bcd4", // Add a bottom border
+    paddingBottom: "10px", // Add some padding to the bottom
+  }}
+>
+  Completed Tasks
+</Typography>
           <Box display="flex" justifyContent="flex-end" mb={2}>
             <IconButton color="primary" onClick={generatePDF}>
               <GetApp />
@@ -129,16 +137,16 @@ const CompletedTask = () => {
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell style={{ fontWeight: "bold" }}>Title</TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>
+                <TableRow style={{ backgroundColor: '#0d87fa'}}>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Title</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>
                     Description
                   </TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>Due Date</TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>Image</TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>Delete</TableCell>
-                  <TableCell style={{ fontWeight: "bold" }}>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Due Date</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Status</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Image</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Delete</TableCell>
+                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>
                     Mark not completed
                   </TableCell>
                 </TableRow>

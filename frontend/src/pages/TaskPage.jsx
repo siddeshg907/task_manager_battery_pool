@@ -131,7 +131,7 @@ const TaskPage = () => {
       <Container maxWidth="lg">
         <Box my={4}>
         <Typography
-  variant="h3"
+  variant="h4"
   color="primary" // Change the color to primary
   align="center"
   gutterBottom
@@ -141,6 +141,7 @@ const TaskPage = () => {
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)", // Add a text shadow
     letterSpacing: "2px", // Increase letter spacing
     marginTop: "20px", // Add some top margin
+    borderBottom: "2px solid #00bcd4",
     paddingBottom: "10px", // Add some padding to the bottom
   }}
 >
