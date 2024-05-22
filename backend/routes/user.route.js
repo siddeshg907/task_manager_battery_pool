@@ -7,11 +7,11 @@ const { auth } = require("../middleware/auth.middleware")
 const userRouter=express.Router()
 
 userRouter.post("/register",async(req,res)=>{
-    const {name,email,password,profile}=req.body
+    const {name,email,password}=req.body
     try {
         const isUser=await UserModel.findOne({email})
         if(isUser){
-            res.status(401).send({"error":"User already exists"})
+            res.status(400).send({"error":"User already exists"})
         }else{ bcrypt.hash(password,5,async(err,hash)=>{
             if(err){
                 res.status(500).json({error:"internal server error"})
@@ -22,8 +22,6 @@ userRouter.post("/register",async(req,res)=>{
                 await user.save()
                 res.status(200).json({msg:"New user Registered successfully"})
             }
-           
-           
         })}
        
     } catch (err) {
