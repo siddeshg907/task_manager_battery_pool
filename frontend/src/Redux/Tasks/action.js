@@ -86,12 +86,53 @@ export const updateTask = (task, token, userID) => {
         },
       });
       dispatch({ type: 'UPDATE_TASK_SUCCESS', payload: updatedTask });
-      dispatch(fetchTasks(token, userID))
+      dispatch(fetchTasks(token, userID)); // Dispatch fetchTasks after the patch request
     } catch (error) {
       console.error(error.message);
     }
   };
 };
+
+export const updateTaskdetail = (task, token, userID) => {
+  return async (dispatch) => {
+    try {
+      const updatedTaskdetail = {
+        ...task,
+      };
+      await axios.patch(`http://localhost:8080/tasks/update/${task._id}`, updatedTaskdetail, {
+        headers: {
+          Authorization: token,
+          userID: userID,
+        },
+      });
+      dispatch({ type: 'UPDATE_TASK_SUCCESS', payload: updatedTaskdetail });
+      dispatch(fetchTasks(token, userID)); // Dispatch fetchTasks after the patch request
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+};
+
+export const updateTaskNotCompleted = (taskId, token, userID) => {
+  return async (dispatch) => {
+    try {
+      const updatedTask = {
+        status: 'not completed',
+      };
+      await axios.patch(`http://localhost:8080/tasks/update/${taskId}`, updatedTask, {
+        headers: {
+          Authorization: token,
+          userID: userID,
+        },
+      });
+      dispatch({ type: 'UPDATE_TASK_SUCCESS', payload: taskId });
+      dispatch(fetchTasks(token, userID)); // Dispatch fetchTasks after the patch request
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+};
+
 
 export const deleteTask = (taskId, token, userID) => {
   return async (dispatch) => {

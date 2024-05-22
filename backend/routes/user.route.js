@@ -6,29 +6,28 @@ const { auth } = require("../middleware/auth.middleware")
 
 const userRouter=express.Router()
 
-userRouter.post("/register",async(req,res)=>{
-    const {name,email,password}=req.body
+userRouter.post("/register", async (req, res) => {
+    const { name, email, password } = req.body;
     try {
-        const isUser=await UserModel.findOne({email})
-        if(isUser){
-            res.status(400).send({"error":"User already exists"})
-        }else{ bcrypt.hash(password,5,async(err,hash)=>{
-            if(err){
-                res.status(500).json({error:"internal server error"})
-            }else if(!hash){
-                res.status(400).send({"error":"internal server error"})
-            }else if(hash){
-                const user=new UserModel({name,email,password:hash})
-                await user.save()
-                res.status(200).json({msg:"New user Registered successfully"})
+        const isUser = await UserModel.findOne({ email });
+        if (isUser) {
+            return res.status(400).send({ error: "User already exists" });
+        }
+        bcrypt.hash(password, 5, async (err, hash) => {
+            if (err) {
+                return res.status(500).json({ error: "Internal server error" });
             }
-        })}
-       
+            if (!hash) {
+                return res.status(400).send({ error: "Internal server error" });
+            }
+            const user = new UserModel({ name, email, password: hash });
+            await user.save();
+            return res.status(200).json({ msg: "New user registered successfully" });
+        });
     } catch (err) {
-        res.status(400).json({error:err})
+        return res.status(400).json({ error: err.message });
     }
-})
-
+});
 
 userRouter.post("/login",async(req,res)=>{
     const {email,password}=req.body

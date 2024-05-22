@@ -94,7 +94,7 @@ function Navbar() {
             >
               <Tab label="Add Task" component={Link} to="/home/addtasks" />
               <Tab label="Tasks" component={Link} to="/home/tasks" />
-              <Tab label="Completed Tasks" component={Link} to="/" />
+              <Tab label="Completed Tasks" component={Link} to="/home/completedtasks" />
             </Tabs>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>

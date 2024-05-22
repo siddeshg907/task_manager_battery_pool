@@ -9,19 +9,19 @@ export const signupReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: '',
+        error: null // Reset error state on request
       };
     case 'SIGNUP_SUCCESS':
       return {
         ...state,
         loading: false,
-        error: '',
+        error: null // Reset error state on success
       };
     case 'SIGNUP_FAILURE':
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        error: action.payload // Set error state on failure
       };
     default:
       return state;

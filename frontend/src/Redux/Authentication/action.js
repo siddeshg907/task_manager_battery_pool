@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 
+
 export const signup = (name, email, password, navigate) => {
   return async (dispatch) => {
     dispatch({ type: 'SIGNUP_REQUEST' });
@@ -14,11 +15,13 @@ export const signup = (name, email, password, navigate) => {
       console.log(response.data); 
       navigate('/login');
     } catch (error) {
-      dispatch({ type: 'SIGNUP_FAILURE', payload: error.response.data.error });
-      console.error(error.response.data.error);
+      console.dir(error); // Log error in console
+      dispatch({ type: 'SIGNUP_FAILURE', payload: error.response.data.error }); // Dispatch action to set error in Redux store
     }
   };
 };
+
+
 
 export const login = (email, password, navigate) => {
   return async (dispatch) => {

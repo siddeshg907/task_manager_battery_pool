@@ -2,20 +2,29 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../Redux/Authentication/action";
-import { TextField, Button, Typography, Container, Box, CircularProgress, Avatar, IconButton } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  CircularProgress,
+  Avatar,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const Signup = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   // const [profile, setProfile] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
+  const loading = useSelector(state => state.signupReducer.loading);
+  const error = useSelector(state => state.signupReducer.error);
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +32,7 @@ const Signup = () => {
       setPasswordError("Password must be at least 8 characters long");
       return;
     }
-    setPasswordError('');
+    setPasswordError("");
     dispatch(signup(name, email, password, navigate));
   };
 
@@ -38,13 +47,18 @@ const Signup = () => {
   //   }
   // };
 
-  //console.log(profile)
-  
+  //console.log(data)
 
   return (
     <Container maxWidth="sm">
       <Box my={7}>
-        <Typography variant="h4" align="center" fontWeight='bold' color='#03a9f4' gutterBottom>
+        <Typography
+          variant="h4"
+          align="center"
+          fontWeight="bold"
+          color="#03a9f4"
+          gutterBottom
+        >
           Sign Up
         </Typography>
         {/* <Box display="flex" justifyContent="center" mb={3} ml={7} alignItems="center">
@@ -121,7 +135,9 @@ const Signup = () => {
         <Box display="flex" justifyContent="center" mt={2}>
           <Typography>Have an account?</Typography>
           <Link to="/login">
-            <Typography color="primary" ml={1}>Sign in</Typography>
+            <Typography color="primary" ml={1}>
+              Sign in
+            </Typography>
           </Link>
         </Box>
         {error && (

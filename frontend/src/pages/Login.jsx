@@ -9,8 +9,8 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
+  const loading = useSelector(state => state.loginReducer.loading);
+  const error = useSelector(state => state.loginReducer.error);
 
   const handleSubmit = (e) => {
     e.preventDefault();

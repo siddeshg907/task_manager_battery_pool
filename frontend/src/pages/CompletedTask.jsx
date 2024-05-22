@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTasks,
-  updateTask,
   deleteTask,
-  updateTaskdetail,
+  updateTaskNotCompleted,
 } from "../Redux/Tasks/action";
 import {
   Typography,
@@ -20,41 +19,35 @@ import {
   Avatar,
   Skeleton,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
 } from "@mui/material";
 import {
-  CheckCircleOutlineOutlined,
-  GetApp,
-  Edit,
+  CheckBoxOutlineBlank,
+  Close,
   Delete,
+  GetApp,
 } from "@mui/icons-material";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const TaskPage = () => {
+const CompletedTask = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasks);
   const userID = localStorage.getItem("userID");
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
-  const [editTask, setEditTask] = useState(null);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTasks(token, userID)).then(() => setLoading(false));
   }, [dispatch, token, userID]);
 
-  const handleUpdateTask = (task) => {
-    dispatch(updateTask(task, token, userID)).then(() => {
+  const handleDeleteTask = (taskId) => {
+    dispatch(deleteTask(taskId, token, userID)).then(() => {
       dispatch(fetchTasks(token, userID)); // Re-fetch tasks to update the list
     });
   };
 
-  const handleDeleteTask = (taskId) => {
-    dispatch(deleteTask(taskId, token, userID)).then(() => {
+  const handleMarkAsNotCompleted = (taskId) => {
+    dispatch(updateTaskNotCompleted(taskId, token, userID)).then(() => {
       dispatch(fetchTasks(token, userID)); // Re-fetch tasks to update the list
     });
   };
@@ -114,38 +107,19 @@ const TaskPage = () => {
     doc.save("task_list.pdf");
   };
 
-  const handleEditClick = (task) => {
-    setEditTask(task);
-    setOpenEditDialog(true);
-  };
-
-  const handleEditTask = () => {
-    dispatch(updateTaskdetail(editTask, token, userID)).then(() => {
-      dispatch(fetchTasks(token, userID)); // Re-fetch tasks to update the list
-      setOpenEditDialog(false); // Close the edit dialog
-    });
-  };
-
   return (
     <>
       <Container maxWidth="lg">
         <Box my={4}>
-        <Typography
-  variant="h3"
-  color="primary" // Change the color to primary
-  align="center"
-  gutterBottom
-  style={{
-    fontWeight: "bold",
-    fontFamily: "Arial, sans-serif", // Change the font family
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)", // Add a text shadow
-    letterSpacing: "2px", // Increase letter spacing
-    marginTop: "20px", // Add some top margin
-    paddingBottom: "10px", // Add some padding to the bottom
-  }}
->
-  Tasks
-</Typography>
+          <Typography
+            variant="h4"
+            color="textPrimary"
+            align="center"
+            gutterBottom
+            style={{ fontWeight: "bold" }}
+          >
+            Completed Tasks
+          </Typography>
           <Box display="flex" justifyContent="flex-end" mb={2}>
             <IconButton color="primary" onClick={generatePDF}>
               <GetApp />
@@ -155,19 +129,18 @@ const TaskPage = () => {
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow style={{ backgroundColor: '#0d87fa'}}>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Title</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>
+                <TableRow>
+                  <TableCell style={{ fontWeight: "bold" }}>Title</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }}>
                     Description
                   </TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Due Date</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Priority</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Image</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Edit</TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>
-                    Mark as completed
+                  <TableCell style={{ fontWeight: "bold" }}>Due Date</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }}>Image</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }}>Delete</TableCell>
+                  <TableCell style={{ fontWeight: "bold" }}>
+                    Mark not completed
                   </TableCell>
-                  <TableCell style={{ fontWeight: "bold",color: 'white' }}>Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -200,7 +173,7 @@ const TaskPage = () => {
                     ))
                   : tasks &&
                     tasks
-                      .filter((task) => task.status !== "completed")
+                      .filter((task) => task.status === "completed")
                       .map((task) => (
                         <TableRow key={task._id}>
                           <TableCell>{task.title}</TableCell>
@@ -245,20 +218,20 @@ const TaskPage = () => {
                             </Avatar>
                           </TableCell>
                           <TableCell>
-    <IconButton onClick={() => handleEditClick(task)}>
-      <Edit />
-    </IconButton>
-  </TableCell>
-  <TableCell>
-    <IconButton onClick={() => handleUpdateTask(task)}>
-      <CheckCircleOutlineOutlined style={{ color: 'green' }} />
-    </IconButton>
-  </TableCell>
-  <TableCell>
-    <IconButton onClick={() => handleDeleteTask(task._id)}>
-      <Delete style={{ color: 'red' }} />
-    </IconButton>
-  </TableCell>
+                            <IconButton
+                              onClick={() => handleDeleteTask(task._id)}
+                            >
+                              <Delete style={{ color: "red" }} />
+                            </IconButton>
+                          </TableCell>
+                          <TableCell>
+                            <IconButton
+                              color="primary"
+                              onClick={() => handleMarkAsNotCompleted(task._id)} // Call handleMarkAsNotCompleted with task ID
+                            >
+                              <Close />
+                            </IconButton>
+                          </TableCell>
                         </TableRow>
                       ))}
               </TableBody>
@@ -266,53 +239,8 @@ const TaskPage = () => {
           </TableContainer>
         </Box>
       </Container>
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>Edit Task</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Title"
-            value={editTask ? editTask.title : ""}
-            onChange={(e) =>
-              setEditTask({ ...editTask, title: e.target.value })
-            }
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Description"
-            value={editTask ? editTask.description : ""}
-            onChange={(e) =>
-              setEditTask({ ...editTask, description: e.target.value })
-            }
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Due Date"
-            type="date"
-            value={editTask ? editTask.dueDate : ""}
-            onChange={(e) =>
-              setEditTask({ ...editTask, dueDate: e.target.value })
-            }
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Priority"
-            value={editTask ? editTask.priority : ""}
-            onChange={(e) =>
-              setEditTask({ ...editTask, priority: e.target.value })
-            }
-            fullWidth
-            margin="normal"
-          />
-          <Button variant="contained" color="primary" onClick={handleEditTask}>
-            Save
-          </Button>
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
 
-export default TaskPage;
+export default CompletedTask;
