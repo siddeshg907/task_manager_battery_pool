@@ -45,7 +45,7 @@ npm run start
 ```
 5. Start the backend server:
 ```bash
-npm run start
+npm run server
 ```
 6. Access the application in your web browser.
 
@@ -81,6 +81,25 @@ npm run start
 3. *Download in PDF*
    - Task page also contains the download button to download the data in PDF.
    - The button is just close to headings of Task pages (its download icon )
+
+
+## Backend
+
+### APIs Developed
+1. *Auth Flow*
+   - User Schema: name, email, password, profile
+   - *Endpoints:*
+     - users/register
+     - users/login 
+
+2. *Tasks CRUD*
+   - Schema: title, description, dueDate, status,priority, imageURL, userID
+   - *Endpoints:*
+     - /tasks : get all tasks 
+     - tasks/add : create new task
+     - tasks//update/:id : update task by id
+     - tasks//delete/:id : delete task by id 
+   
 
 
 ## Screenshots

@@ -93,7 +93,7 @@ const TaskPage = () => {
       "Image URL",
     ];
     const tableRows = [];
-
+  
     tasks.forEach((task) => {
       const taskData = [
         task.title,
@@ -104,12 +104,29 @@ const TaskPage = () => {
       ];
       tableRows.push(taskData);
     });
-
+  
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
       startY: 20,
+      styles: {
+        cellPadding: 3,
+        fontSize: 10,
+      },
+      headStyles: {
+        fillColor: [63, 81, 181],
+        textColor: [255, 255, 255],
+        fontSize: 12,
+      },
+      columnStyles: {
+        0: { cellWidth: 30 }, // Title
+        1: { cellWidth: 60 }, // Description
+        2: { cellWidth: 30 }, // Due Date
+        3: { cellWidth: 20 }, // Priority
+        4: { cellWidth: 30 }, // Image URL
+      },
     });
+    
     doc.text("Task List", 14, 15);
     doc.save("task_list.pdf");
   };

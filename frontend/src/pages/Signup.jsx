@@ -9,10 +9,10 @@ import {
   Container,
   Box,
   CircularProgress,
-  Avatar,
-  IconButton,
+  //Avatar,
+  //IconButton,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+//import AddIcon from "@mui/icons-material/Add";
 
 const Signup = () => {
   const [name, setName] = useState("");
