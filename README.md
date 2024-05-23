@@ -124,5 +124,8 @@ npm run server
 
 **Completed Task Page**
 ![Completed Tasks Page](/frontend/src/Images/Completed%20Task%20page.png)
+
+**Downloaded PDF**
+![Downloaded PDF](/frontend/src/Images/Downloaded%20PDF.png)
    
    
